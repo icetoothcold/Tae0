@@ -1,0 +1,30 @@
+﻿.ssmp.progress.progress-mini[data-percent] {
+            margin-bottom: 0px;
+            height: 20px;
+           
+        }
+
+ .ssmp.progress.progress-mini[data-percent]:after {
+            line-height: 1.5;
+}
+ 
+ /*!************************************/
+.dataTables_wrapper .row:first-child,
+.dataTables_wrapper .row:last-child{
+	background-color: #ffffff;
+  		padding-bottom: 2px;
+  		padding-top: 5px;
+	}
+.dataTables_wrapper .dataTable td,
+.dataTables_wrapper .dataTable th{
+	padding:2px 8px;
+}
+
+.dataTables_wrapper  .dataTables_length label{
+}
+
+
+.dataTables_wrapper .pagination > li > a, 
+.dataTables_wrapper .pagination > li > span {
+	padding: 2px 8px;
+}

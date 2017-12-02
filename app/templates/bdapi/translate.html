@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}translate{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/jquery-ui.custom.min.css') }}" />
+{% endblock %}
+{% block breadcrumb %}
+    <li>百度API</li>
+    <li id="index-ctrl" pagename="translate"><a href="{{ url_for('bdapi.translate') }}">百度翻译</a></li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-1">
+            <select class="form-control" id="from-id">
+                <option value="auto">自动检测</option>
+                <option value="en">英文</option>
+                <option value="zh">中文</option>
+                <option value="kor">韩语</option>
+                <option value="spa">西班牙语</option>
+                <option value="ara">阿拉伯语</option>
+                <option value="fra">法语</option>
+                <option value="it">意大利语</option>
+                <option value="de">德语</option>
+                <option value="nl">荷兰语</option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <select class="form-control" id="to-id">
+                <option value="auto">自动检测</option>
+                <option value="en">英文</option>
+                <option value="zh">中文</option>
+                <option value="kor">韩语</option>
+                <option value="spa">西班牙语</option>
+                <option value="ara">阿拉伯语</option>
+                <option value="fra">法语</option>
+                <option value="it">意大利语</option>
+                <option value="de">德语</option>
+                <option value="nl">荷兰语</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <button id="btn-tran" class="btn btn-primary">翻译</button>
+        </div>
+    </div>
+    <div class="row">
+    <br/>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+                <span class="input-icon input-icon-right">
+                    <textarea class="autosize-transition form-control" rows="10" cols="70" name="q" id="q-id" placeholder="请输入要翻译的文字"></textarea>
+                    <i id="i-remove" class="ace-icon glyphicon glyphicon-remove "></i>
+                </span>
+        </div>
+        <div class="col-sm-5">
+            <div>
+                <textarea name="result" id="result-id" rows="10" cols="70" class="autosize-transition form-control" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static',filename='/assets/js/jquery-ui.custom.min.js') }}"></script>
+    <script>
+    $(function(){
+        $('#btn-tran').click(function(){
+            $.ajax({
+                url:"http://openapi.baidu.com/public/2.0/bmt/translate",
+                dataType:'JSONP',
+                type:'POST',
+                data:{
+                    'client_id':client_id,
+                    'q':$('#q-id').val(),
+                    'from':$('#from-id').val(),
+                    'to':$('#to-id').val()
+                },
+                success:function(result){
+                    $('#result-id').text(result['trans_result'][0]['dst']);
+                }
+            })
+        });//翻译按钮AJAX提交
+        $('#i-remove').click(function(){
+            $('#q-id').val('');
+        }).mouseenter(function(){
+            $(this).addClass('bigger-150')
+        }).mouseleave(function(){
+            $(this).removeClass('bigger-150')
+        })
+
+    })
+    </script>
+
+{% endblock %}

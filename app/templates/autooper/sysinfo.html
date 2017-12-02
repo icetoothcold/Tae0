@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}sysinfo{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/jquery-ui.min.css') }}" />
+{% endblock %}
+{% block breadcrumb %}
+    <li>自动化运维</li>
+    <li id="index-ctrl" pagename="sysinfo"><a href="{{ url_for('autooper.sysinfo') }}">系统基础信息psutil</a></li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-sm-7 infobox-container">
+        <!-- #section:pages/dashboard.infobox -->
+            <div class="infobox infobox-red">
+                <div class="infobox-icon">
+                    <i class="moveshow ace-icon glyphicon glyphicon-heart" title="执行用户进程的时间百分比"></i>
+                </div>
+                <div class="infobox-data">
+                    <span id="span-user" class="infobox-data-number">{{ user }}</span>
+                    <div class="infobox-content">User Time</div>
+                </div>
+                <!-- #section:pages/dashboard.infobox.stat -->
+                <!-- /section:pages/dashboard.infobox.stat -->
+            </div>
+            <div class="infobox infobox-green">
+                <div class="infobox-icon">
+                    <i class="moveshow ace-icon glyphicon glyphicon-briefcase" title="执行内核进程和中断的时间百分比"></i>
+                </div>
+                <div class="infobox-data">
+                    <span class="infobox-data-number">{{ system }}</span>
+                    <div class="infobox-content">System Time</div>
+                </div>
+                <!-- #section:pages/dashboard.infobox.stat -->
+                <!-- /section:pages/dashboard.infobox.stat -->
+            </div>
+            <div class="infobox infobox-pink">
+                <div class="infobox-icon">
+                    <i class="moveshow ace-icon glyphicon glyphicon-briefcase" title="执行内核进程和中断的时间百分比"></i>
+                </div>
+                <div class="infobox-data">
+                    <span class="infobox-data-number">{{ iowait }}</span>
+                    <div class="infobox-content">Wait IO</div>
+                </div>
+                <!-- #section:pages/dashboard.infobox.stat -->
+                <!-- /section:pages/dashboard.infobox.stat -->
+            </div>
+            <div class="infobox infobox-green">
+                <div class="infobox-icon">
+                    <i class="moveshow ace-icon glyphicon glyphicon-briefcase" title="执行内核进程和中断的时间百分比"></i>
+                </div>
+                <div class="infobox-data">
+                    <span class="infobox-data-number">{{ idle }}</span>
+                    <div class="infobox-content">Idle</div>
+                </div>
+                <!-- #section:pages/dashboard.infobox.stat -->
+                <!-- /section:pages/dashboard.infobox.stat -->
+            </div>
+            <div class="infobox infobox-green">
+                <div class="infobox-icon">
+                    <i class="moveshow ace-icon glyphicon glyphicon-briefcase" title="执行内核进程和中断的时间百分比"></i>
+                </div>
+                <div class="infobox-data">
+                    <span class="infobox-data-number">{{ irq }}</span>
+                    <div class="infobox-content">Irq</div>
+                </div>
+                <!-- #section:pages/dashboard.infobox.stat -->
+                <!-- /section:pages/dashboard.infobox.stat -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static',filename='assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.ui.touch-punch.min.js') }}"></script>
+    <script>
+    function inforefresh(){
+        $.ajax({
+            url:"{{ url_for('autooper.sysinforefresh') }}",
+            success:function(result){
+                $('#span-user').text(result);
+            }
+        });
+    }
+    $(function(){
+        $( ".moveshow" ).tooltip({
+            show: null,
+            position: {
+                my: "left top",
+                at: "left bottom"
+            },
+            open: function( event, ui ) {
+                ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+            }
+        });
+
+        setInterval("inforefresh()",1000);
+    })
+    </script>
+{% endblock %}
